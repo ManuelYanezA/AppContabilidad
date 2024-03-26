@@ -2,7 +2,7 @@
 
 import tkinter as tk
 from constants import style
-from screens import Home, Test
+from screens import Home, CalculoIVA, UsuariosPrevired
 
 class Manager(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -20,7 +20,7 @@ class Manager(tk.Tk):
 
         self.frames = {}
 
-        for F in (Home, Test):
+        for F in (Home, CalculoIVA, UsuariosPrevired):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky=tk.NSEW)

@@ -14,7 +14,7 @@ class Manager(tk.Tk):
             fill = tk.BOTH,
             expand = True
         )
-        container.configure(background = style.BACKGROUND)
+        container.configure(background = style.BACKGROUND_WINDOW)
         container.grid_columnconfigure(0, weight=1)
         container.grid_rowconfigure(0, weight=1)
 

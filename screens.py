@@ -1,12 +1,15 @@
 # Multiple classes module for screens
 
 import tkinter as tk
+from tkinter import *
+from tkinter import ttk
 from constants import style, config
+import locale
 
 class Home(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
-        self.configure(background = style.BACKGROUND)
+        self.configure(background = style.BACKGROUND_WINDOW)
         self.controller = controller
         self.workMode = tk.StringVar(self, value="Calculo IVA")
 
@@ -18,20 +21,8 @@ class Home(tk.Frame):
         self.controller.show_frame(UsuariosPrevired)
 
     def init_widgets(self):
-        tk.Label(
-            self,
-            text = "App Contabilidad",
-            justify = tk.CENTER,
-            **style.STYLE
-        ).pack(
-            side = tk.TOP,
-            fill = tk.BOTH,
-            expand = True,
-            padx = 22,
-            pady = 11
-        )
         optionsFrame = tk.Frame(self)
-        optionsFrame.configure(background=style.COMPONENT)
+        optionsFrame.configure(background=style.COMPONENT_TEXT)
         optionsFrame.pack(
             side = tk.TOP,
             fill = tk.BOTH,
@@ -72,10 +63,10 @@ class Home(tk.Frame):
             self,
             text = "Cálculo de IVA",
             command = self.move_to_IVA,
-            **style.STYLE,
+            **style.BUTTON_STYLE,
             relief = tk.FLAT,
-            activebackground = style.BACKGROUND,
-            activeforeground = style.TEXT,
+            activebackground = style.BACKGROUND_WINDOW,
+            activeforeground = style.TEXT_FG,
         ).pack(
             side = tk.TOP,
             fill = tk.X,
@@ -86,10 +77,10 @@ class Home(tk.Frame):
             self,
             text = "Lista Usuarios Previred",
             command = self.move_to_Previred,
-            **style.STYLE,
+            **style.BUTTON_STYLE,
             relief = tk.FLAT,
-            activebackground = style.BACKGROUND,
-            activeforeground = style.TEXT,
+            #activebackground = style.BACKGROUND_WINDOW,
+            #activeforeground = style.TEXT_FG,
         ).pack(
             side = tk.TOP,
             fill = tk.X,
@@ -100,7 +91,7 @@ class Home(tk.Frame):
 class CalculoIVA(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
-        self.configure(background = "green")
+        self.configure(background = style.BACKGROUND_WINDOW)
         self.controller = controller
 
         self.result_precio_bruto = 0
@@ -108,7 +99,9 @@ class CalculoIVA(tk.Frame):
         self.result_IVA_A = 0
         self.result_IVA_B = 0
 
-        for i in range(2):
+        locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8') #Activar formato para números como divisa CLP
+
+        for i in range(3):
             self.grid_columnconfigure(i, weight=1)
         for i in range(6):
             self.grid_rowconfigure(i, weight=1)
@@ -157,7 +150,7 @@ class CalculoIVA(tk.Frame):
             justify = tk.CENTER,
             **style.STYLE
         ).grid(
-            column=1,
+            column=2,
             row=0,
             sticky=tk.NSEW,
             padx=22,
@@ -178,7 +171,7 @@ class CalculoIVA(tk.Frame):
         self.valor_Neto = tk.StringVar()
         valor_Neto_Entry = tk.Entry(self, width = 20, textvariable = self.valor_Neto)
         valor_Neto_Entry.grid(
-            column=1,
+            column=2,
             row=1,
             sticky=tk.N,
             ipady=2
@@ -187,7 +180,9 @@ class CalculoIVA(tk.Frame):
         tk.Button(
             self,
             text="Calcular IVA",
-            command=self.calcularIVA
+            command=self.calcularIVA,
+            **style.BUTTON_STYLE,
+            relief = tk.FLAT,
         ).grid(
             column=0,
             row=2,
@@ -199,9 +194,11 @@ class CalculoIVA(tk.Frame):
         tk.Button(
             self,
             text="Calcular Monto Neto",
-            command=self.calcularPrecioBruto
+            command=self.calcularPrecioBruto,
+            **style.BUTTON_STYLE,
+            relief = tk.FLAT,
         ).grid(
-            column=1,
+            column=2,
             row=2,
             sticky=tk.N,
             padx=2,
@@ -228,7 +225,7 @@ class CalculoIVA(tk.Frame):
             **style.STYLE
         )
         self.label_precio_bruto.grid(
-            column=1,
+            column=2,
             row=4,
             sticky=tk.N,
             padx=2,
@@ -241,7 +238,7 @@ class CalculoIVA(tk.Frame):
             justify = tk.CENTER,
             **style.STYLE
         ).grid(
-            column=1,
+            column=2,
             row=3,
             sticky=tk.S,
             padx=2,
@@ -281,7 +278,7 @@ class CalculoIVA(tk.Frame):
             justify = tk.CENTER,
             **style.STYLE
         ).grid(
-            column=1,
+            column=2,
             row=5,
             sticky=tk.S,
             padx=2,
@@ -309,11 +306,21 @@ class CalculoIVA(tk.Frame):
             **style.STYLE
         )
         self.label_iva_B.grid(
-            column=1,
+            column=2,
             row=6,
             sticky=tk.N,
             padx=2,
             pady=2
+        )
+
+        ttk.Separator(
+            self,
+            orient='vertical'
+        ).grid(
+            column=1,
+            row=0,
+            rowspan=8,
+            sticky=tk.NS
         )
 
 class UsuariosPrevired(tk.Frame):

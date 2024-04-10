@@ -1,11 +1,20 @@
-BACKGROUND = '#121212'
-FONT = ("Arial", 16)
-COMPONENT = "#363636"
-TEXT = "#84C9FB"
+BACKGROUND_WINDOW = '#C1D8DF'
+BACKGROUND_BUTTON = '#1F63B2'
+FONT_TEXT = ("Arial", 16)
+FONT_BUTTON = ("Arial", 12)
+COMPONENT_TEXT = "#C1D8DF"
+TEXT_FG = "#000000"
+BUTTON_FG = "#FFFFFF"
 
 
 STYLE = {
-    "font": FONT,
-    "bg": COMPONENT,
-    "fg": TEXT
+    "font": FONT_TEXT,
+    "bg": COMPONENT_TEXT,
+    "fg": TEXT_FG
+}
+
+BUTTON_STYLE = {
+    "font": FONT_BUTTON,
+    "bg": BACKGROUND_BUTTON,
+    "fg": BUTTON_FG
 }

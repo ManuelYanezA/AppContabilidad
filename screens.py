@@ -2,7 +2,7 @@
 
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from constants import style, config
 import locale
 
@@ -101,6 +101,8 @@ class CalculoIVA(tk.Frame):
 
         locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8') #Activar formato para números como divisa CLP
 
+        self.validacion = self.register(self.validar_numero)
+
         for i in range(3):
             self.grid_columnconfigure(i, weight=1)
         for i in range(6):
@@ -108,6 +110,12 @@ class CalculoIVA(tk.Frame):
 
         self.init_widgets()
     
+    def validar_numero(self, character):
+        #character = event.char
+        if not (character.isdigit() or character == ""):
+            return False
+        return True
+
     def calcularIVA(self):
         try:
             value = int(self.precio_Bruto.get())
@@ -116,7 +124,9 @@ class CalculoIVA(tk.Frame):
             self.label_valor_neto.config(text= "$ " + locale.format_string("%d", self.result_valor_neto, grouping=True))
             self.label_iva_A.config(text= "$ " + locale.format_string("%d", self.result_IVA_A, grouping=True))
         except ValueError:
-            print("ERROR: Must be an Integer")
+            #print("ERROR: Must be an Integer")
+            messagebox.showwarning("Error", "Debe ingresar un número entero")
+            
     
     def calcularPrecioBruto(self):
         try:
@@ -126,13 +136,14 @@ class CalculoIVA(tk.Frame):
             self.label_precio_bruto.config(text= "$ " + locale.format_string("%d", self.result_precio_bruto, grouping=True))
             self.label_iva_B.config(text= "$ " + locale.format_string("%d", self.result_IVA_B, grouping=True))
         except ValueError:
-            print("ERROR: Must be an Integer")
+            #print("ERROR: Must be an Integer")
+            messagebox.showwarning("Error", "Debe ingresar un número entero")
 
     def init_widgets(self):
         #Label de Precio en bruto (Sin IVA)
         tk.Label(
             self,
-            text = "Monto Neto",
+            text = "Monto Neto (Sin IVA)",
             justify = tk.CENTER,
             **style.STYLE
         ).grid(
@@ -159,7 +170,7 @@ class CalculoIVA(tk.Frame):
 
         #Entrada para precio bruto
         self.precio_Bruto = tk.StringVar()
-        precio_Bruto_Entry = tk.Entry(self, width = 20, textvariable = self.precio_Bruto)
+        precio_Bruto_Entry = tk.Entry(self, validate="key", validatecommand=(self.validacion, "%P"), width = 20, textvariable = self.precio_Bruto)
         precio_Bruto_Entry.grid(
             column=0,
             row=1,
@@ -169,7 +180,7 @@ class CalculoIVA(tk.Frame):
 
         #Entrada para valor neto
         self.valor_Neto = tk.StringVar()
-        valor_Neto_Entry = tk.Entry(self, width = 20, textvariable = self.valor_Neto)
+        valor_Neto_Entry = tk.Entry(self, validate="key", validatecommand=(self.validacion, "%P"), width = 20, textvariable = self.valor_Neto)
         valor_Neto_Entry.grid(
             column=2,
             row=1,
@@ -187,8 +198,8 @@ class CalculoIVA(tk.Frame):
             column=0,
             row=2,
             sticky=tk.N,
-            padx=2,
-            pady=2
+            padx=20,
+            pady=20
         )
 
         tk.Button(
@@ -201,8 +212,8 @@ class CalculoIVA(tk.Frame):
             column=2,
             row=2,
             sticky=tk.N,
-            padx=2,
-            pady=2
+            padx=20,
+            pady=20
         )
 
         tk.Label(
@@ -234,14 +245,14 @@ class CalculoIVA(tk.Frame):
 
         tk.Label(
             self,
-            text = "Monto Neto",
+            text = "Monto Neto (Sin IVA)",
             justify = tk.CENTER,
             **style.STYLE
         ).grid(
             column=2,
             row=3,
             sticky=tk.S,
-            padx=2,
+            padx=22,
             pady=2
         )
 

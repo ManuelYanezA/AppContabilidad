@@ -113,8 +113,8 @@ class CalculoIVA(tk.Frame):
             value = int(self.precio_Bruto.get())
             self.result_valor_neto = round(value * 1.19)
             self.result_IVA_A = round(value * 0.19)
-            self.label_valor_neto.config(text= "$ " + str(self.result_valor_neto))
-            self.label_iva_A.config(text= "$ " + str(self.result_IVA_A))
+            self.label_valor_neto.config(text= "$ " + locale.format_string("%d", self.result_valor_neto, grouping=True))
+            self.label_iva_A.config(text= "$ " + locale.format_string("%d", self.result_IVA_A, grouping=True))
         except ValueError:
             print("ERROR: Must be an Integer")
     
@@ -123,8 +123,8 @@ class CalculoIVA(tk.Frame):
             value = int(self.valor_Neto.get())
             self.result_precio_bruto = round(value / 1.19)
             self.result_IVA_B = round(self.result_precio_bruto * 0.19)
-            self.label_precio_bruto.config(text= "$ " + str(self.result_precio_bruto))
-            self.label_iva_B.config(text= "$ " + str(self.result_IVA_B))
+            self.label_precio_bruto.config(text= "$ " + locale.format_string("%d", self.result_precio_bruto, grouping=True))
+            self.label_iva_B.config(text= "$ " + locale.format_string("%d", self.result_IVA_B, grouping=True))
         except ValueError:
             print("ERROR: Must be an Integer")
 
